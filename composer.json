@@ -1,0 +1,21 @@
+{
+    "name": "ivopetkov/js-lightbox-bearframework-addon",
+    "description": "JS lightbox addon for Bear Framework",
+    "keywords": ["gallery", "lightbox", "image", "addon", "Bear Framework"],
+    "homepage": "https://github.com/ivopetkov/js-lightbox-bearframework-addon",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivo Petkov",
+            "email": "ivo@ivopetkov.com",
+            "homepage": "http://ivopetkov.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "bearframework/bearframework": "*"
+    },
+    "autoload": {
+        "files": ["autoload.php"]
+    }
+}
