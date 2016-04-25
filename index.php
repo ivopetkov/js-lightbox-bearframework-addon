@@ -9,4 +9,4 @@
 
 $context->assets->addDir('assets/');
 
-$app->components->addAlias('js-lightbox', 'file:' . $context->dir . 'components/jsLightbox.php');
+$app->components->addAlias('js-lightbox', 'file:' . $context->dir . '/components/jsLightbox.php');
