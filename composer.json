@@ -1,7 +1,7 @@
 {
     "name": "ivopetkov/js-lightbox-bearframework-addon",
     "description": "JS lightbox addon for Bear Framework",
-    "keywords": ["gallery", "lightbox", "image", "addon", "Bear Framework"],
+    "keywords": ["gallery", "lightbox", "image", "Bear Framework addon"],
     "homepage": "https://github.com/ivopetkov/js-lightbox-bearframework-addon",
     "license": "MIT",
     "authors": [

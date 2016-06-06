@@ -1,3 +1,10 @@
+/*
+ * JS lightbox for Bear Framework
+ * https://github.com/ivopetkov/js-lightbox-bearframework-addon
+ * Copyright (c) 2016 Ivo Petkov
+ * Free to use under the MIT license.
+ */
+
 var ivoPetkov = ivoPetkov || {};
 ivoPetkov.bearFramework = ivoPetkov.bearFramework || {};
 ivoPetkov.bearFramework.addons = ivoPetkov.bearFramework.addons || {};
@@ -78,7 +85,6 @@ ivoPetkov.bearFramework.addons.jsLightbox = (function () {
                 (new Function(image.onShow))();
             }
         };
-
 
         this.open = function (index) {
 
