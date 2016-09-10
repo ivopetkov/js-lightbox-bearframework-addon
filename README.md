@@ -61,8 +61,8 @@ var createGallery = function(){
 };
 </script>
 <component src="js-lightbox" onload="createGallery();"/>
-<img src="file1-small.jpg" onclick="new ivoPetkov.bearFramework.addons.jsLightbox.open(0);"/>
-<img src="file2-small.jpg" onclick="new ivoPetkov.bearFramework.addons.jsLightbox.open(1);"/>
+<img src="file1-small.jpg" onclick="window.myGallery.open(0);"/>
+<img src="file2-small.jpg" onclick="window.myGallery.open(1);"/>
 ```
 
 ## License
