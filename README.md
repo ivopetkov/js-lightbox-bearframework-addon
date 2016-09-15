@@ -50,20 +50,98 @@ Multiple images that are opened in fullscreen when clicked.
 ```html
 <script>
 var createGallery = function(){
-    window.myGallery = new ivoPetkov.bearFramework.addons.jsLightbox([
-        {
-            'html'=>'<img src="file1-big.jpg"/>',
-        },
-        {
-            'html'=>'<img src="file2-big.jpg"/>',
+    window.myGallery = new ivoPetkov.bearFramework.addons.jsLightbox({
+        'images': [
+            {
+                'html'=>'<img src="file1-big.jpg" style="max-width:100%;max-height:100%;"/>',
+            },
+            {
+                'html'=>'<img src="file2-big.jpg" style="max-width:100%;max-height:100%;"/>',
+            },
+            {
+                'html'=>'<img src="file3-big.jpg" style="max-width:100%;max-height:100%;"/>',
+            }
+        ],
+        'options': {
+            'paddingTop': '5px',
+            'paddingRight': '5px',
+            'paddingBottom': '5px',
+            'paddingLeft': '5px'
         }
-    ]);
+    });
 };
 </script>
 <component src="js-lightbox" onload="createGallery();"/>
 <img src="file1-small.jpg" onclick="window.myGallery.open(0);"/>
 <img src="file2-small.jpg" onclick="window.myGallery.open(1);"/>
+<img src="file3-small.jpg" onclick="window.myGallery.open(1);"/>
 ```
+
+## JS data schema
+
+`images`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`html`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The HTML code for the fullscreen image.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`onBeforeShow`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JavaScript code that will be executed before the image is shown.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`onShow`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JavaScript code that will be executed after the image is shown.
+
+`options`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`paddingTop`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The space between the fullscreen image and the top window border. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`paddingRight`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The space between the fullscreen image and the right window border. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`paddingBottom`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The space between the fullscreen image and the bottom window border. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`paddingLeft`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The space between the fullscreen image and the left window border. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`containerClassName`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The class name of the fullscreen images container. It's useful for styling the container.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`containerStyle`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A CSS styles list that will be applied to the fullscreen images container.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`nextButtonHtml`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The HTML code for the next button.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`previousButtonHtml`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The HTML code for the previous button.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`closeButtonHtml`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The HTML code for the close button.
+
+## JS API
+
+After you create a jsLightbox object, you can call the following methods:
+
+`open(index)`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open in fullscreen the image with the index specified.
+
+`close()`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the fullscreen preview.
 
 ## License
 JS lightbox addon for Bear Framework is open-sourced software. It's free to use under the MIT license. See the [license file](https://github.com/ivopetkov/js-lightbox-bearframework-addon/blob/master/LICENSE) for more information.
