@@ -5,6 +5,11 @@
  * Copyright (c) 2016 Ivo Petkov
  * Free to use under the MIT license.
  */
+
+use \BearFramework\App;
+
+$app = App::get();
+$context = $app->getContext(__FILE__);
 ?><html>
     <head>
         <link id="js-lightbox-bearframework-addon-style" rel="stylesheet" href="<?= $context->assets->getUrl('assets/swiper.min.css') ?>">
