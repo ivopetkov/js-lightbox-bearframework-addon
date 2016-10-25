@@ -86,7 +86,7 @@ ivoPetkov.bearFramework.addons.jsLightbox = (function () {
 
         this.open = function (index) {
 
-            var html = '<div id="' + containerID + '" class="' + data.options.containerClassName + '" style="position:fixed;z-index:10000;top:0;left:0;width:100%;height:100%;' + data.options.containerStyle + '">';
+            var html = '<div id="' + containerID + '" class="' + data.options.containerClassName + '" style="position:fixed;z-index:10010000;top:0;left:0;width:100%;height:100%;' + data.options.containerStyle + '">';
             html += '<div class="swiper-container-' + containerID + '" style="width:100%;height:100%;">';
             html += '<div class="swiper-wrapper">';
             for (var i in data.images) {
@@ -97,7 +97,7 @@ ivoPetkov.bearFramework.addons.jsLightbox = (function () {
             }
             html += '</div>';
             html += '</div>';
-            html += '<div style="z-index:10001;position:fixed;top:0;left:0;">';
+            html += '<div style="z-index:10010001;position:fixed;top:0;left:0;">';
             if (data.options.nextButtonHtml.length > 0) {
                 html += data.options.nextButtonHtml;
             }
