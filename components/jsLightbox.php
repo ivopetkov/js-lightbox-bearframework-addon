@@ -12,7 +12,8 @@ $app = App::get();
 $context = $app->getContext(__FILE__);
 ?><html>
     <head>
-        <link id="js-lightbox-bearframework-addon-style" rel="stylesheet" href="<?= $context->assets->getUrl('assets/swiper.min.css') ?>">
+        <link id="js-lightbox-bearframework-addon-style-1" rel="stylesheet" href="<?= $context->assets->getUrl('assets/jsLightbox.min.css') ?>">
+        <link id="js-lightbox-bearframework-addon-style-2" rel="stylesheet" href="<?= $context->assets->getUrl('assets/swiper.min.css') ?>">
         <script id="js-lightbox-bearframework-addon-script-1" src="<?= $context->assets->getUrl('assets/swiper.min.js') ?>"></script>
         <script id="js-lightbox-bearframework-addon-script-2" src="<?= $context->assets->getUrl('assets/jsLightbox.min.js') ?>"></script>
     </head>
