@@ -58,15 +58,17 @@ ivoPetkov.bearFramework.addons.jsLightbox = (function () {
 
         var updateSizes = function () {
             var container = document.querySelector('.swiper-container-' + containerID);
-            var children = container.firstChild.childNodes;
-            var childrenCount = children.length;
-            for (var i = 0; i < childrenCount; i++) {
-                var child = children[i];
-                var computedStyle = window.getComputedStyle(child.firstChild);
-                var maxWidth = parseInt(computedStyle.width.replace('px', ''), 10);
-                var maxHeight = parseInt(computedStyle.height.replace('px', ''), 10);
-                child.firstChild.firstChild.style.width = maxWidth + 'px';
-                child.firstChild.firstChild.style.height = maxHeight + 'px';
+            if (container) {
+                var children = container.firstChild.childNodes;
+                var childrenCount = children.length;
+                for (var i = 0; i < childrenCount; i++) {
+                    var child = children[i];
+                    var computedStyle = window.getComputedStyle(child.firstChild);
+                    var maxWidth = parseInt(computedStyle.width.replace('px', ''), 10);
+                    var maxHeight = parseInt(computedStyle.height.replace('px', ''), 10);
+                    child.firstChild.firstChild.style.width = maxWidth + 'px';
+                    child.firstChild.firstChild.style.height = maxHeight + 'px';
+                }
             }
         };
 
@@ -74,6 +76,15 @@ ivoPetkov.bearFramework.addons.jsLightbox = (function () {
             var image = data.images[index];
             if (typeof image.onBeforeShow !== 'undefined' && image.onBeforeShow.length > 0) {
                 (new Function(image.onBeforeShow))();
+            }
+            var container = document.querySelector('#' + containerID);
+            var buttons = container.childNodes[container.childNodes.length - 1].childNodes;
+            for (var i = 0; i < buttons.length; i++) {
+                if (buttons[i].jsLightboxType === 'previous') {
+                    buttons[i].style.display = index === 0 ? 'none' : 'block';
+                } else if (buttons[i].jsLightboxType === 'next') {
+                    buttons[i].style.display = index === data.images.length - 1 ? 'none' : 'block';
+                }
             }
         };
 
@@ -124,6 +135,26 @@ ivoPetkov.bearFramework.addons.jsLightbox = (function () {
             object.swiperObject.on('slideChangeEnd', function (swiper) {
                 onShowImage(swiper.activeIndex);
             });
+            var buttonIndex = -1;
+            if (data.options.nextButtonHtml.length > 0) {
+                buttonIndex++;
+                var button = container.childNodes[1].childNodes[buttonIndex];
+                button.jsLightboxType = 'next';
+                button.addEventListener('click', object.swiperObject.slideNext);
+            }
+            if (data.options.previousButtonHtml.length > 0) {
+                buttonIndex++;
+                var button = container.childNodes[1].childNodes[buttonIndex];
+                button.jsLightboxType = 'previous';
+                button.addEventListener('click', object.swiperObject.slidePrev);
+            }
+            if (data.options.closeButtonHtml.length > 0) {
+                buttonIndex++;
+                var button = container.childNodes[1].childNodes[buttonIndex];
+                button.jsLightboxType = 'close';
+                button.addEventListener('click', object.close);
+            }
+
             window.addEventListener('resize', updateSizes);
             updateSizes();
             if (typeof index !== 'undefined' && index !== 0) {
@@ -133,31 +164,20 @@ ivoPetkov.bearFramework.addons.jsLightbox = (function () {
                 onShowImage(0);
             }
 
-            var buttonIndex = -1;
-            if (data.options.nextButtonHtml.length > 0) {
-                buttonIndex++;
-                var button = container.childNodes[1].childNodes[buttonIndex];
-                button.addEventListener('click', object.swiperObject.slideNext);
-            }
-            if (data.options.previousButtonHtml.length > 0) {
-                buttonIndex++;
-                var button = container.childNodes[1].childNodes[buttonIndex];
-                button.addEventListener('click', object.swiperObject.slidePrev);
-            }
-            if (data.options.closeButtonHtml.length > 0) {
-                buttonIndex++;
-                var button = container.childNodes[1].childNodes[buttonIndex];
-                button.addEventListener('click', object.close);
-            }
-
             document.body.addEventListener('keydown', closeOnEscKey);
         };
 
         this.close = function () {
-            document.body.removeEventListener('keydown', closeOnEscKey);
-            window.removeEventListener('resize', updateSizes);
+            try { // IE
+                document.body.removeEventListener('keydown', closeOnEscKey);
+                window.removeEventListener('resize', updateSizes);
+            } catch (e) {
+
+            }
             var container = document.querySelector('#' + containerID);
-            container.remove();
+            if (container) {
+                container.remove();
+            }
         };
 
     };
