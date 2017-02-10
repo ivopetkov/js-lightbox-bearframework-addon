@@ -9,7 +9,7 @@
 use \BearFramework\App;
 
 $app = App::get();
-$context = $app->getContext(__FILE__);
+$context = $app->context->get(__FILE__);
 ?><html>
     <head>
         <link id="js-lightbox-bearframework-addon-style-1" rel="stylesheet" href="<?= $context->assets->getUrl('assets/jsLightbox.min.css') ?>">
