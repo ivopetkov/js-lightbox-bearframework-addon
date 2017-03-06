@@ -50,7 +50,7 @@ Multiple images that are opened in fullscreen when clicked.
 ```html
 <script>
 var createGallery = function(){
-    window.myGallery = new ivoPetkov.bearFramework.addons.jsLightbox({
+    window.myGallery = new ivoPetkov.bearFrameworkAddons.jsLightbox({
         'images': [
             {
                 'html'=>'<img src="file1-big.jpg" style="max-width:100%;max-height:100%;"/>',

@@ -6,10 +6,10 @@
  */
 
 var ivoPetkov = ivoPetkov || {};
-ivoPetkov.bearFramework = ivoPetkov.bearFramework || {};
-ivoPetkov.bearFramework.addons = ivoPetkov.bearFramework.addons || {};
 
-ivoPetkov.bearFramework.addons.jsLightbox = (function () {
+ivoPetkov.bearFrameworkAddons = ivoPetkov.bearFrameworkAddons || {};
+
+ivoPetkov.bearFrameworkAddons.jsLightbox = (function () {
 
     var objectsCounter = 0;
 
@@ -97,7 +97,7 @@ ivoPetkov.bearFramework.addons.jsLightbox = (function () {
 
         this.open = function (index) {
 
-            var html = '<div id="' + containerID + '" class="' + ('js-lightbox-conatiner ' + data.options.containerClassName).trim() + '" style="position:fixed;z-index:10010000;top:0;left:0;width:100%;height:100%;' + data.options.containerStyle + '">';
+            var html = '<div id="' + containerID + '" class="' + ('js-lightbox-container ' + data.options.containerClassName).trim() + '" style="position:fixed;z-index:10010000;top:0;left:0;width:100%;height:100%;' + data.options.containerStyle + '">';
             html += '<div class="swiper-container-' + containerID + '" style="width:100%;height:100%;">';
             html += '<div class="swiper-wrapper">';
             for (var i in data.images) {
