@@ -176,7 +176,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = (function () {
             }
             var container = document.querySelector('#' + containerID);
             if (container) {
-                container.remove();
+                container.parentNode.removeChild(container);
             }
         };
 
