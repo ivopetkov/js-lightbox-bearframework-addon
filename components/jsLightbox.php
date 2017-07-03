@@ -15,7 +15,7 @@ $swiperJsUrl = $context->assets->getUrl('assets/swiper.min.js', ['cacheMaxAge' =
 $swiperCssUrl = $context->assets->getUrl('assets/swiper.min.css', ['cacheMaxAge' => 999999, 'version' => 1]);
 ?><html>
     <head>
-        <script id="js-lightbox-bearframework-addon-script-1" src="<?= $context->assets->getUrl('assets/jsLightbox.min.js', ['cacheMaxAge' => 999999, 'version' => 2]) ?>" async></script>
+        <script id="js-lightbox-bearframework-addon-script-1" src="<?= $context->assets->getUrl('assets/jsLightbox.min.js', ['cacheMaxAge' => 999999, 'version' => 3]) ?>" async></script>
     </head>
     <body>
         <?php
