@@ -11,7 +11,6 @@ use \BearFramework\App;
 $app = App::get();
 $context = $app->context->get(__FILE__);
 
-$jsLightboxCssUrl = $context->assets->getUrl('assets/jsLightbox.min.css', ['cacheMaxAge' => 999999, 'version' => 1]);
 $swiperJsUrl = $context->assets->getUrl('assets/swiper.min.js', ['cacheMaxAge' => 999999, 'version' => 1]);
 $swiperCssUrl = $context->assets->getUrl('assets/swiper.min.css', ['cacheMaxAge' => 999999, 'version' => 1]);
 ?><html>
@@ -22,7 +21,7 @@ $swiperCssUrl = $context->assets->getUrl('assets/swiper.min.css', ['cacheMaxAge'
         <?php
         echo '<script>';
         echo 'var checkAndExecute=function(b,c){if(b())c();else{var a=function(){b()?(window.clearTimeout(a),c()):window.setTimeout(a,16)};window.setTimeout(a,16)}};';
-        echo 'checkAndExecute(function(){return typeof ivoPetkov!=="undefined" && typeof ivoPetkov.bearFrameworkAddons!=="undefined" && typeof ivoPetkov.bearFrameworkAddons.jsLightbox!=="undefined"},function(){ivoPetkov.bearFrameworkAddons.jsLightboxGlobalData={"jsLightboxCssUrl":"' . $jsLightboxCssUrl . '","swiperJsUrl":"' . $swiperJsUrl . '","swiperCssUrl":"' . $swiperCssUrl . '"}' . $component->onload . '});';
+        echo 'checkAndExecute(function(){return typeof ivoPetkov!=="undefined" && typeof ivoPetkov.bearFrameworkAddons!=="undefined" && typeof ivoPetkov.bearFrameworkAddons.jsLightbox!=="undefined"},function(){ivoPetkov.bearFrameworkAddons.jsLightboxGlobalData={"swiperJsUrl":"' . $swiperJsUrl . '","swiperCssUrl":"' . $swiperCssUrl . '"}' . $component->onload . '});';
         echo '</script>';
         ?>
     </body>

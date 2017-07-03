@@ -11,7 +11,6 @@ ivoPetkov.bearFrameworkAddons = ivoPetkov.bearFrameworkAddons || {};
 
 if (typeof ivoPetkov.bearFrameworkAddons.jsLightbox === 'undefined') {
     ivoPetkov.bearFrameworkAddons.jsLightboxGlobalData = {
-        'jsLightboxCssUrl': null,
         'swiperJsUrl': null,
         'swiperCssUrl': null
     };
@@ -23,15 +22,6 @@ if (typeof ivoPetkov.bearFrameworkAddons.jsLightbox === 'undefined') {
         var loadSwiper = function () {
             if (swiperStatus === 0) {
                 swiperStatus++;
-                if (ivoPetkov.bearFrameworkAddons.jsLightboxGlobalData.jsLightboxCssUrl !== null) {
-                    var link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = ivoPetkov.bearFrameworkAddons.jsLightboxGlobalData.jsLightboxCssUrl;
-                    link.onload = function () {
-                        swiperStatus++;
-                    };
-                    document.head.appendChild(link);
-                }
                 if (ivoPetkov.bearFrameworkAddons.jsLightboxGlobalData.swiperJsUrl !== null) {
                     var script = document.createElement('script');
                     script.src = ivoPetkov.bearFrameworkAddons.jsLightboxGlobalData.swiperJsUrl;
@@ -214,7 +204,7 @@ if (typeof ivoPetkov.bearFrameworkAddons.jsLightbox === 'undefined') {
                     }
                 };
 
-                if (swiperStatus === 4) {
+                if (swiperStatus === 3) {
                     build();
                 } else {
                     loadSwiper();
@@ -229,7 +219,7 @@ if (typeof ivoPetkov.bearFrameworkAddons.jsLightbox === 'undefined') {
                         }
                     };
                     checkAndExecute(function () {
-                        return swiperStatus === 4
+                        return swiperStatus === 3
                     }, build);
                     return;
                 }
