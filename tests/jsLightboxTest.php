@@ -10,7 +10,7 @@
 /**
  * @runTestsInSeparateProcesses
  */
-class JSLightboxTest extends BearFrameworkAddonTestCase
+class JSLightboxTest extends BearFramework\AddonTests\PHPUnitTestCase
 {
 
     /**
