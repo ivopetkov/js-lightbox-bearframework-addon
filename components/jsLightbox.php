@@ -9,13 +9,13 @@
 use \BearFramework\App;
 
 $app = App::get();
-$context = $app->context->get(__FILE__);
+$context = $app->contexts->get(__FILE__);
 
-$swiperJsUrl = $context->assets->getUrl('assets/swiper.min.js', ['cacheMaxAge' => 999999999, 'version' => 1]);
-$swiperCssUrl = $context->assets->getUrl('assets/swiper.min.css', ['cacheMaxAge' => 999999999, 'version' => 1]);
+$swiperJsUrl = $context->assets->getURL('assets/swiper.min.js', ['cacheMaxAge' => 999999999, 'version' => 1]);
+$swiperCssUrl = $context->assets->getURL('assets/swiper.min.css', ['cacheMaxAge' => 999999999, 'version' => 1]);
 ?><html>
     <head><?php
-?><script id="js-lightbox-bearframework-addon-script-1" src="<?= $context->assets->getUrl('assets/jsLightbox.min.js', ['cacheMaxAge' => 999999999, 'version' => 3]) ?>" async></script><?php
+?><script id="js-lightbox-bearframework-addon-script-1" src="<?= $context->assets->getURL('assets/jsLightbox.min.js', ['cacheMaxAge' => 999999999, 'version' => 3]) ?>" async></script><?php
 ?></head>
     <body><?php
         echo '<script>';
