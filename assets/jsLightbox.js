@@ -44,7 +44,6 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             innerHTML += '<a class="ipjslghtbx"><span>&#10010;</span></a>';
             //}
             container.innerHTML = innerHTML;
-            container.firstChild.firstChild.style.padding = spacing;
             //if (options.showCloseButton) {
             container.lastChild.addEventListener('click', close);
             //}
@@ -57,6 +56,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         } else {
             container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
         }
+        container.firstChild.firstChild.style.padding = spacing;
     };
 
     var hideContainer = function () {

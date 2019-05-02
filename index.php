@@ -18,7 +18,7 @@ $app->clientShortcuts
         ->add('lightbox', function(IvoPetkov\BearFrameworkAddons\ClientShortcut $shortcut) use ($context) {
             $shortcut->requirements[] = [
                 'type' => 'file',
-                'url' => $context->assets->getURL('assets/jsLightbox.min.js', ['cacheMaxAge' => 999999999, 'version' => 4]),
+                'url' => $context->assets->getURL('assets/jsLightbox.min.js', ['cacheMaxAge' => 999999999, 'version' => 5]),
                 'mimeType' => 'text/javascript'
             ];
             $shortcut->requirements[] = [
