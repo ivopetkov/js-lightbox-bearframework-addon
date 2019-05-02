@@ -13,7 +13,6 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory>./components/</directory>
             <file>./index.php</file>
         </whitelist>
     </filter>

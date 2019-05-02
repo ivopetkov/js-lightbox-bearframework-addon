@@ -9,6 +9,6 @@
 
 BearFramework\Addons::register('ivopetkov/js-lightbox-bearframework-addon', __DIR__, [
     'require' => [
-        'ivopetkov/html-server-components-bearframework-addon'
+        'ivopetkov/client-shortcuts-bearframework-addon',
     ]
 ]);
