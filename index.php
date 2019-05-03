@@ -18,12 +18,7 @@ $app->clientShortcuts
         ->add('lightbox', function(IvoPetkov\BearFrameworkAddons\ClientShortcut $shortcut) use ($context) {
             $shortcut->requirements[] = [
                 'type' => 'file',
-                'url' => $context->assets->getURL('assets/jsLightbox.min.js', ['cacheMaxAge' => 999999999, 'version' => 5]),
-                'mimeType' => 'text/javascript'
-            ];
-            $shortcut->requirements[] = [
-                'type' => 'file',
-                'url' => $context->assets->getURL('assets/HTML5DOMDocument.min.js', ['cacheMaxAge' => 999999999, 'version' => 1]),
+                'url' => $context->assets->getURL('assets/jsLightbox.min.js', ['cacheMaxAge' => 999999999, 'version' => 6]),
                 'mimeType' => 'text/javascript'
             ];
             $shortcut->requirements[] = [
@@ -44,4 +39,12 @@ $app->clientShortcuts
                 'mimeType' => 'text/css'
             ];
             $shortcut->get = 'return ivoPetkov.bearFrameworkAddons.jsLightbox;';
+        })
+        ->add('-ivopetkov-js-lightbox-html5domdocument', function(IvoPetkov\BearFrameworkAddons\ClientShortcut $shortcut) use ($context) {
+            $shortcut->requirements[] = [
+                'type' => 'file',
+                'url' => $context->assets->getURL('assets/HTML5DOMDocument.min.js', ['cacheMaxAge' => 999999999, 'version' => 1]),
+                'mimeType' => 'text/javascript'
+            ];
+            $shortcut->get = 'return html5DOMDocument;';
         });

@@ -13,6 +13,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var closeTimeout = null;
     var openTimeout = null;
     var waitingTimeout = null;
+    var waitingHTML = '<span class="ipjslghtbcl">&#8228;</span>';
 
     var hideWaiting = function () {
         if (waitingTimeout !== null) {
@@ -88,7 +89,22 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var open = function (html, options) {
         contextID++;
         showContainer(options);
-        html5DOMDocument.insert(html, [container.firstChild.firstChild]);
+        return new Promise(function (resolve, reject) {
+            if (html === waitingHTML) {
+                container.firstChild.firstChild.innerHTML = html;
+            } else {
+                clientShortcuts.get('-ivopetkov-js-lightbox-html5domdocument')
+                        .then(function (html5DOMDocument) {
+                            if (container !== null) {
+                                html5DOMDocument.insert(html, [container.firstChild.firstChild]);
+                                resolve();
+                            }
+                        })
+                        .catch(function () {
+                            reject();
+                        });
+            }
+        });
     };
 
     var close = function () {
@@ -100,7 +116,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
 
     var wait = function (callback, options) {
         contextID++;
-        open('<span class="ipjslghtbcl">&#8228;</span>', options);
+        open(waitingHTML, options);
         waitingTimeout = window.setTimeout(function () {
             var element = document.querySelector('.ipjslghtbcl');
             if (element !== null) {
@@ -117,7 +133,11 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                     },
                     'open': function (html, options) {
                         if (_contextID === contextID) {
-                            open(html, options);
+                            return open(html, options);
+                        } else {
+                            return new Promise(function (resolve, reject) {
+                                reject();
+                            });
                         }
                     },
                     'close': function () {
@@ -137,6 +157,34 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         if (event.keyCode === 27) {
             close();
         }
+    };
+
+    Promise = window.Promise || function (callback) {
+        var thenCallbacks = [];
+        var catchCallback = null;
+        this.then = function (f) {
+            thenCallbacks.push(f);
+            return this;
+        };
+        this.catch = function (f) {
+            if (catchCallback === null) {
+                catchCallback = f;
+            }
+            return this;
+        };
+        var resolve = function () {
+            for (var i in thenCallbacks) {
+                thenCallbacks[i].apply(null, arguments);
+            }
+        };
+        var reject = function () {
+            if (catchCallback !== null) {
+                catchCallback.apply(null, arguments);
+            }
+        };
+        window.setTimeout(function () {
+            callback(resolve, reject);
+        }, 16);
     };
 
     return {
