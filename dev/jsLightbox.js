@@ -21,11 +21,11 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var open = function (html, options) {
         contextID++;
         window.clearTimeout(closeTimeout);
-
         if (typeof options === 'undefined') {
             options = {};
         }
         var spacing = typeof options.spacing !== 'undefined' ? options.spacing : '15px';
+
         if (container === null) {
             container = document.createElement('div');
             container.setAttribute('class', 'ipjslghtbc');
@@ -42,12 +42,12 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         } else {
             container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
         }
-        container.firstChild.firstChild.style.padding = spacing;
+        var target = container.firstChild.firstChild;
 
         return new Promise(function (resolve, reject) {
-            var target = container.firstChild.firstChild;
             if (html === waitingHTML) {
                 if (target.innerHTML.indexOf('<span class="ipjslghtbcl') !== 0) {
+                    target.style.padding = spacing;
                     target.innerHTML = html;
                     waitingTimeout = window.setTimeout(function () {
                         var element = document.querySelector('.ipjslghtbcl');
@@ -62,6 +62,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                             .then(function (html5DOMDocument) {
                                 if (_contextID === contextID) {
                                     window.clearTimeout(waitingTimeout);
+                                    target.style.padding = spacing;
                                     html5DOMDocument.insert(html, [target]);
                                     resolve();
                                 } else {
