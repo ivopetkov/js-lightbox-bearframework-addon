@@ -15,7 +15,7 @@ $context = $app->contexts->get(__FILE__);
 $context->assets->addDir('assets/public');
 
 $app->clientPackages
-        ->add('lightbox', '2' . uniqid(), function(IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
+        ->add('lightbox', 1, function(IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
             $package->addJSCode(include $context->dir . '/assets/jsLightbox.min.js.php');
             //$package->addJSCode(file_get_contents($context->dir . '/dev/jsLightbox.js'));
 
