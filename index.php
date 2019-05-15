@@ -15,7 +15,7 @@ $context = $app->contexts->get(__FILE__);
 $context->assets->addDir('assets/public');
 
 $app->clientPackages
-        ->add('lightbox', 3, function(IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
+        ->add('lightbox', function(IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
             $package->addJSCode(include $context->dir . '/assets/jsLightbox.min.js.php');
             //$package->addJSCode(file_get_contents($context->dir . '/dev/jsLightbox.js'));
 
@@ -34,15 +34,9 @@ $app->clientPackages
                     . '@keyframes ipjslghtbw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}';
             $package->addCSSCode($code);
 
-            $package->preparePackage('-ivopetkov-js-lightbox-html5domdocument');
-
             $package->get = 'return ivoPetkov.bearFrameworkAddons.jsLightbox;';
         })
-        ->add('-ivopetkov-js-lightbox-html5domdocument', 1, function(IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
-            $package->requirements[] = [
-                'type' => 'file',
-                'url' => $context->assets->getURL('assets/public/HTML5DOMDocument.min.js', ['cacheMaxAge' => 999999999, 'version' => 1]),
-                'mimeType' => 'text/javascript'
-            ];
+        ->add('-ivopetkov-js-lightbox-html5domdocument', function(IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
+            $package->addJSFile($context->assets->getURL('assets/public/HTML5DOMDocument.min.js', ['cacheMaxAge' => 999999999, 'version' => 1]));
             $package->get = 'return html5DOMDocument;';
         });
