@@ -15,7 +15,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var closeTimeout = null;
     var openTimeout = null;
     var waitingTimeout = null;
-    var waitingHTML = '<span class="ipjslghtbcl">&#8228;</span>';
+    var waitingHTML = '<span class="ipjslghtbcl"></span>';
     var contextID = 0;
 
     var open = function (html, options) {

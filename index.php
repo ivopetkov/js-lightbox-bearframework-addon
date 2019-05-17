@@ -25,12 +25,12 @@ $app->clientPackages
                     . '.ipjslghtbc > div > div{overflow:auto;max-width:100vw;max-height:100vh;box-sizing:border-box;}'
                     . '.ipjslghtbx{display:block;width:42px;height:42px;position:fixed;right:0;top:0;cursor:pointer;overflow:hidden;z-index:20000001;user-select:none;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;}'
                     . '.ipjslghtbx span{display:block;width:42px;height:42px;font-size:25px;color:rgba(255,255,255,0.8);transform:rotate(45deg);margin-top:9px;margin-left:5px;}'
-                    . '.ipjslghtbcl{color:rgba(255,255,255,0.8);font-size:70px;line-height:10px;-webkit-animation:ipjslghtbw 1s infinite linear;animation:ipjslghtbw 1s infinite linear;position:absolute;width:40px;height:40px;margin-top:-25px;margin-left:-25px;border-radius:50%;border:5px solid rgba(255,255,255,0.8);cursor:default;user-select:none;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;opacity:0;-webkit-transition:opacity 300ms;transition:opacity 300ms;}'
+                    . '.ipjslghtbcl{animation:ipjslghtbw 1.5s infinite linear;position:absolute;width:36px;height:36px;margin-top:-22px;margin-left:-22px;border-radius:50%;border:4px solid rgba(255,255,255,0.2);cursor:default;user-select:none;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;opacity:0;-webkit-transition:opacity 300ms;transition:opacity 300ms;border-right:4px solid rgba(255,255,255,0.8);}'
                     . '.ipjslghtbclv{opacity:1;}'
-                    . '@-moz-keyframes ipjslghtbw{from{-moz-transform:rotate(0deg);}to{-moz-transform:rotate(360deg);}}'
-                    . '@-webkit-keyframes ipjslghtbw{from{-webkit-transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);}}'
-                    . '@-ms-keyframes ipjslghtbw{from{-ms-transform:rotate(0deg);}to{-ms-transform:rotate(360deg);}}'
-                    . '@-o-keyframes ipjslghtbw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}'
+//                    . '@-moz-keyframes ipjslghtbw{from{-moz-transform:rotate(0deg);}to{-moz-transform:rotate(360deg);}}'
+//                    . '@-webkit-keyframes ipjslghtbw{from{-webkit-transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);}}'
+//                    . '@-ms-keyframes ipjslghtbw{from{-ms-transform:rotate(0deg);}to{-ms-transform:rotate(360deg);}}'
+//                    . '@-o-keyframes ipjslghtbw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}'
                     . '@keyframes ipjslghtbw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}';
             $package->addCSSCode($code);
 
