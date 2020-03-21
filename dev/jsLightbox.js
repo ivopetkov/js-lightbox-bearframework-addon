@@ -58,19 +58,19 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             } else {
                 (function (_contextID) {
                     clientPackages.get('-ivopetkov-js-lightbox-html5domdocument')
-                            .then(function (html5DOMDocument) {
-                                if (_contextID === contextID) {
-                                    window.clearTimeout(waitingTimeout);
-                                    target.style.padding = spacing;
-                                    html5DOMDocument.insert(html, [target]);
-                                    resolve();
-                                } else {
-                                    reject();
-                                }
-                            })
-                            .catch(function () {
+                        .then(function (html5DOMDocument) {
+                            if (_contextID === contextID) {
+                                window.clearTimeout(waitingTimeout);
+                                target.style.padding = spacing;
+                                html5DOMDocument.insert(html, [target]);
+                                resolve();
+                            } else {
                                 reject();
-                            });
+                            }
+                        })
+                        .catch(function () {
+                            reject();
+                        });
                 })(contextID);
             }
         });
