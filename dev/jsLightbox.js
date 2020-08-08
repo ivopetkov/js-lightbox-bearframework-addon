@@ -25,6 +25,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             options = {};
         }
         var spacing = typeof options.spacing !== 'undefined' ? options.spacing : '15px';
+        var showCloseButton = typeof options.showCloseButton !== 'undefined' ? options.showCloseButton : true;
 
         if (container === null) {
             container = document.createElement('div');
@@ -42,6 +43,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
         }
         var target = container.firstChild.firstChild;
+        container.lastChild.style.display = showCloseButton ? 'block' : 'none';
 
         return new Promise(function (resolve, reject) {
             if (html === waitingHTML) {
