@@ -30,7 +30,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         if (container === null) {
             container = document.createElement('div');
             container.setAttribute('class', 'ipjslghtbc');
-            container.innerHTML = '<div><div></div></div>';
+            container.innerHTML = '<div><div><div></div></div></div>';
             container.innerHTML += '<a class="ipjslghtbx"><span>&#10010;</span></a>';
             container.lastChild.addEventListener('click', close);
             document.body.appendChild(container);
@@ -42,8 +42,8 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         } else {
             container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
         }
-        var target = container.firstChild.firstChild;
         container.lastChild.style.display = showCloseButton ? 'block' : 'none';
+        var target = container.firstChild.firstChild.firstChild;
 
         return new Promise(function (resolve, reject) {
             if (html === waitingHTML) {
