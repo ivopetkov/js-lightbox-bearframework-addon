@@ -1,7 +1,12 @@
 {
     "name": "ivopetkov/js-lightbox-bearframework-addon",
     "description": "JS lightbox addon for Bear Framework",
-    "keywords": ["gallery", "lightbox", "image", "Bear Framework addon"],
+    "keywords": [
+        "gallery",
+        "lightbox",
+        "image",
+        "Bear Framework addon"
+    ],
     "homepage": "https://github.com/ivopetkov/js-lightbox-bearframework-addon",
     "license": "MIT",
     "authors": [
@@ -14,13 +19,14 @@
     "require": {
         "php": ">=7.1.0",
         "bearframework/bearframework": "1.*",
-        "ivopetkov/client-packages-bearframework-addon": "0.2.*"
+        "ivopetkov/client-packages-bearframework-addon": "1.*"
     },
     "require-dev": {
-        "bearframework/addon-tests": "0.3.*",
-        "phpunit/phpunit": "7.*"
+        "bearframework/addon-tests": "1.*"
     },
     "autoload": {
-        "files": ["autoload.php"]
+        "files": [
+            "autoload.php"
+        ]
     }
 }
