@@ -19,7 +19,6 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var contextID = 0;
 
     var open = function (html, options) {
-        contextID++;
         window.clearTimeout(closeTimeout);
         if (typeof options === 'undefined') {
             options = {};
@@ -47,7 +46,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
 
         return new Promise(function (resolve, reject) {
             if (html === waitingHTML) {
-                if (target.innerHTML.indexOf('<span class="ipjslghtbcl') !== 0) {
+                if (target.querySelector('.ipjslghtbcl') === null) {
                     target.style.padding = spacing;
                     target.innerHTML = html;
                     waitingTimeout = window.setTimeout(function () {
@@ -58,28 +57,36 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                     }, 1000);
                 }
             } else {
-                (function (_contextID) {
-                    clientPackages.get('-ivopetkov-js-lightbox-html5domdocument')
-                        .then(function (html5DOMDocument) {
-                            if (_contextID === contextID) {
-                                window.clearTimeout(waitingTimeout);
-                                target.style.padding = spacing;
-                                html5DOMDocument.insert(html, [target]);
-                                resolve();
-                            } else {
+                var showHtml = function () {
+                    (function (_contextID) {
+                        clientPackages.get('-ivopetkov-js-lightbox-html5domdocument')
+                            .then(function (html5DOMDocument) {
+                                if (_contextID === contextID) {
+                                    window.clearTimeout(waitingTimeout);
+                                    target.style.padding = spacing;
+                                    html5DOMDocument.insert(html, [target]);
+                                    resolve();
+                                } else {
+                                    reject();
+                                }
+                            })
+                            .catch(function () {
                                 reject();
-                            }
-                        })
-                        .catch(function () {
-                            reject();
-                        });
-                })(contextID);
+                            });
+                    })(contextID);
+                };
+                var waitingElement = target.querySelector('.ipjslghtbcl');
+                if (waitingElement === null) {
+                    showHtml();
+                } else {
+                    waitingElement.setAttribute('class', 'ipjslghtbcl');
+                    window.setTimeout(showHtml, 300);
+                }
             }
         });
     };
 
     var close = function () {
-        contextID++;
         window.clearTimeout(openTimeout);
         window.clearTimeout(waitingTimeout);
         if (container !== null) {
@@ -97,6 +104,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     };
 
     var make = function (options) {
+        contextID++;
         open(waitingHTML, options);
         return (function (_contextID) {
             return {
