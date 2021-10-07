@@ -30,7 +30,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             container = document.createElement('div');
             container.setAttribute('class', 'ipjslghtbc');
             container.innerHTML = '<div><div><div></div></div></div>';
-            container.innerHTML += '<a class="ipjslghtbx"><span>&#10010;</span></a>';
+            container.innerHTML += '<a class="ipjslghtbx"></a>';
             container.lastChild.addEventListener('click', close);
             document.body.appendChild(container);
             document.body.addEventListener('keydown', closeOnEscKey);
