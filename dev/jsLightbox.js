@@ -18,6 +18,57 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var waitingHTML = '<span class="ipjslghtbcl"></span>';
     var contextID = 0;
 
+    var bodyScrollbarsDisabled = false;
+    var disableBodyScrollbars = function () {
+        if (!bodyScrollbarsDisabled) {
+            document.body.style.overflow = 'hidden';
+            if (document.body.scrollHeight > window.innerHeight) {
+                document.body.style.marginRight = getBodyScrollbarSize() + 'px';
+            }
+            bodyScrollbarsDisabled = true;
+        }
+    };
+    var enableBodyScrollbars = function () {
+        if (bodyScrollbarsDisabled) {
+            document.body.style.overflow = 'auto';
+            document.body.style.marginRight = 'auto';
+            bodyScrollbarsDisabled = false;
+        }
+    };
+
+    var bodyScroolbarSizeCache = null;
+    var getBodyScrollbarSize = function () {
+        if (bodyScroolbarSizeCache !== null) {
+            return bodyScroolbarSizeCache;
+        }
+
+        var inner = document.createElement('p');
+        inner.style.width = "100%";
+        inner.style.height = "200px";
+
+        var outer = document.createElement('div');
+        outer.style.position = "absolute";
+        outer.style.top = "-10000px";
+        outer.style.left = "-10000px";
+        outer.style.visibility = "hidden";
+        outer.style.width = "200px";
+        outer.style.height = "150px";
+        outer.style.overflow = "hidden";
+        outer.appendChild(inner);
+
+        document.body.appendChild(outer);
+        var w1 = inner.offsetWidth;
+        outer.style.overflow = 'scroll';
+        var w2 = inner.offsetWidth;
+        if (w1 === w2) {
+            w2 = outer.clientWidth;
+        }
+
+        document.body.removeChild(outer);
+
+        return bodyScroolbarSizeCache = w1 - w2;
+    };
+
     var open = function (html, options) {
         window.clearTimeout(closeTimeout);
         if (typeof options === 'undefined') {
@@ -37,6 +88,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             openTimeout = window.setTimeout(function () {
                 container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
                 openTimeout = null;
+                disableBodyScrollbars();
             }, 16);
         } else {
             container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
@@ -99,6 +151,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                 }
                 container.parentNode.removeChild(container);
                 container = null;
+                enableBodyScrollbars();
             }, 300);
         }
     };
