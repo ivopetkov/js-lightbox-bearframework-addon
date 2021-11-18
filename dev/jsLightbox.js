@@ -111,7 +111,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             } else {
                 var showHtml = function () {
                     (function (_contextID) {
-                        clientPackages.get('-ivopetkov-js-lightbox-html5domdocument')
+                        clientPackages.get('html5DOMDocument')
                             .then(function (html5DOMDocument) {
                                 if (_contextID === contextID) {
                                     window.clearTimeout(waitingTimeout);

@@ -12,8 +12,6 @@ use \BearFramework\App;
 $app = App::get();
 $context = $app->contexts->get(__DIR__);
 
-$context->assets->addDir('assets/public');
-
 $app->clientPackages
     ->add('lightbox', function (IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
         $package->addJSCode(include $context->dir . '/assets/jsLightbox.min.js.php');
@@ -37,8 +35,4 @@ $app->clientPackages
         $package->addCSSCode($code);
 
         $package->get = 'return ivoPetkov.bearFrameworkAddons.jsLightbox;';
-    })
-    ->add('-ivopetkov-js-lightbox-html5domdocument', function (IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
-        $package->addJSFile($context->assets->getURL('assets/public/HTML5DOMDocument.min.js', ['cacheMaxAge' => 999999999, 'version' => 1]));
-        $package->get = 'return html5DOMDocument;';
     });
