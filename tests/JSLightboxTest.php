@@ -23,6 +23,6 @@ class JSLightboxTest extends BearFramework\AddonTests\PHPUnitTestCase
         $html = '<html><head><link rel="client-packages-embed" name="lightbox"></head></html>';
         $result = $app->clientPackages->process($html);
 
-        $this->assertTrue(strpos($result, '<script>var html5DOMDocument=') !== false);
+        $this->assertTrue(strpos($result, 'ivoPetkov.bearFrameworkAddons.jsLightbox=') !== false);
     }
 }
