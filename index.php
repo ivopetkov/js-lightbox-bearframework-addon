@@ -12,6 +12,14 @@ use \BearFramework\App;
 $app = App::get();
 $context = $app->contexts->get(__DIR__);
 
+$app->localization
+    ->addDictionary('en', function () use ($context) {
+        return include $context->dir . '/locales/en.php';
+    })
+    ->addDictionary('bg', function () use ($context) {
+        return include $context->dir . '/locales/bg.php';
+    });
+
 $app->clientPackages
     ->add('lightbox', function (IvoPetkov\BearFrameworkAddons\ClientPackage $package) use ($context) {
         $package->addJSCode(include $context->dir . '/assets/jsLightbox.min.js.php');
@@ -34,5 +42,6 @@ $app->clientPackages
             . '@keyframes ipjslghtbw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}';
         $package->addCSSCode($code);
 
-        $package->get = 'return ivoPetkov.bearFrameworkAddons.jsLightbox;';
+        $data = [__('ivopetkov.js-lightbox.close')];
+        $package->get = 'return ivoPetkov.bearFrameworkAddons.jsLightbox.initialize(' . json_encode($data) . ');';
     });

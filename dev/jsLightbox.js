@@ -18,6 +18,13 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var waitingHTML = '<span class="ipjslghtbcl"></span>';
     var contextID = 0;
 
+    var closeButtonText = '';
+
+    var initialize = function (data) {
+        closeButtonText = data[0];
+        return this;
+    };
+
     var bodyScrollbarsDisabled = false;
     var disableBodyScrollbars = function () {
         if (!bodyScrollbarsDisabled) {
@@ -88,7 +95,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             container.setAttribute('class', 'ipjslghtbc');
             container.setAttribute('data-lightbox-component', 'container');
             container.innerHTML = '<div><div><div></div></div></div>';
-            container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="Close this window" title="Close this window"></a>';
+            container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="' + closeButtonText + '" title="' + closeButtonText + '"></a>';
             container.lastChild.addEventListener('click', close);
             documentBody.appendChild(container);
             documentBody.addEventListener('keydown', closeOnEscKey);
@@ -226,6 +233,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
 
     return {
         'make': make,
-        'close': close
+        'close': close,
+        'initialize': initialize
     };
 }());
