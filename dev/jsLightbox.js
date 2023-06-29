@@ -86,8 +86,9 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             var documentBody = document.body;
             container = document.createElement('div');
             container.setAttribute('class', 'ipjslghtbc');
+            container.setAttribute('data-lightbox-component', 'container');
             container.innerHTML = '<div><div><div></div></div></div>';
-            container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" aria-label="Close this window" title="Close this window"></a>';
+            container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="Close this window" title="Close this window"></a>';
             container.lastChild.addEventListener('click', close);
             documentBody.appendChild(container);
             documentBody.addEventListener('keydown', closeOnEscKey);
@@ -101,6 +102,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         }
         container.lastChild.style.display = showCloseButton ? 'block' : 'none';
         var target = container.firstChild.firstChild.firstChild;
+        target.setAttribute('data-lightbox-component', 'content');
 
         return new Promise(function (resolve, reject) {
             if (html === waitingHTML) {
