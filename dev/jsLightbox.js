@@ -21,17 +21,19 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var bodyScrollbarsDisabled = false;
     var disableBodyScrollbars = function () {
         if (!bodyScrollbarsDisabled) {
-            document.body.style.overflow = 'hidden';
-            if (document.body.scrollHeight > window.innerHeight) {
-                document.body.style.marginRight = getBodyScrollbarSize() + 'px';
+            var documentBody = document.body;
+            documentBody.style.overflow = 'hidden';
+            if (documentBody.scrollHeight > window.innerHeight) {
+                documentBody.style.marginRight = getBodyScrollbarSize() + 'px';
             }
             bodyScrollbarsDisabled = true;
         }
     };
     var enableBodyScrollbars = function () {
         if (bodyScrollbarsDisabled) {
-            document.body.style.overflow = 'auto';
-            document.body.style.marginRight = 'auto';
+            var documentBody = document.body;
+            documentBody.style.overflow = 'auto';
+            documentBody.style.marginRight = 'auto';
             bodyScrollbarsDisabled = false;
         }
     };
@@ -41,6 +43,8 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         if (bodyScroolbarSizeCache !== null) {
             return bodyScroolbarSizeCache;
         }
+
+        var documentBody = document.body;
 
         var inner = document.createElement('p');
         inner.style.width = "100%";
@@ -56,7 +60,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         outer.style.overflow = "hidden";
         outer.appendChild(inner);
 
-        document.body.appendChild(outer);
+        documentBody.appendChild(outer);
         var w1 = inner.offsetWidth;
         outer.style.overflow = 'scroll';
         var w2 = inner.offsetWidth;
@@ -64,7 +68,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             w2 = outer.clientWidth;
         }
 
-        document.body.removeChild(outer);
+        documentBody.removeChild(outer);
 
         return bodyScroolbarSizeCache = w1 - w2;
     };
@@ -76,15 +80,17 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         }
         var spacing = typeof options.spacing !== 'undefined' ? options.spacing : '15px';
         var showCloseButton = typeof options.showCloseButton !== 'undefined' ? options.showCloseButton : true;
+        var onOpen = typeof options.onOpen !== 'undefined' ? options.onOpen : null;
 
         if (container === null) {
+            var documentBody = document.body;
             container = document.createElement('div');
             container.setAttribute('class', 'ipjslghtbc');
             container.innerHTML = '<div><div><div></div></div></div>';
-            container.innerHTML += '<a class="ipjslghtbx"></a>';
+            container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" aria-label="Close this window" title="Close this window"></a>';
             container.lastChild.addEventListener('click', close);
-            document.body.appendChild(container);
-            document.body.addEventListener('keydown', closeOnEscKey);
+            documentBody.appendChild(container);
+            documentBody.addEventListener('keydown', closeOnEscKey);
             openTimeout = window.setTimeout(function () {
                 container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
                 openTimeout = null;
@@ -117,6 +123,9 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                                     window.clearTimeout(waitingTimeout);
                                     target.style.padding = spacing;
                                     html5DOMDocument.insert(html, [target]);
+                                    if (onOpen !== null) {
+                                        onOpen(target);
+                                    }
                                     resolve();
                                 } else {
                                     reject();
