@@ -88,6 +88,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         var spacing = typeof options.spacing !== 'undefined' ? options.spacing : '15px';
         var showCloseButton = typeof options.showCloseButton !== 'undefined' ? options.showCloseButton : true;
         var onOpen = typeof options.onOpen !== 'undefined' ? options.onOpen : null;
+        var onBeforeEscKeyClose = typeof options.onBeforeEscKeyClose !== 'undefined' ? options.onBeforeEscKeyClose : null;
 
         if (container === null) {
             var documentBody = document.body;
@@ -107,6 +108,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         } else {
             container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
         }
+        container.onBeforeEscKeyClose = onBeforeEscKeyClose;
         container.lastChild.style.display = showCloseButton ? 'block' : 'none';
         var target = container.firstChild.firstChild.firstChild;
         target.setAttribute('data-lightbox-component', 'content');
@@ -156,17 +158,26 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         });
     };
 
-    var close = function () {
+    var close = function (escapeKeyMode) {
+        if (typeof escapeKeyMode === 'undefined') {
+            escapeKeyMode = false;
+        }
+        if (escapeKeyMode && container.onBeforeEscKeyClose !== null) {
+            var escKeyCloseResult = container.onBeforeEscKeyClose();
+            if (escKeyCloseResult === false) {
+                return;
+            }
+        }
         window.clearTimeout(openTimeout);
         window.clearTimeout(waitingTimeout);
         if (container !== null) {
+            try { // IE
+                document.body.removeEventListener('keydown', closeOnEscKey);
+            } catch (e) {
+
+            }
             container.setAttribute('class', 'ipjslghtbc');
             closeTimeout = window.setTimeout(function () {
-                try { // IE
-                    document.body.removeEventListener('keydown', closeOnEscKey);
-                } catch (e) {
-
-                }
                 container.parentNode.removeChild(container);
                 container = null;
                 enableBodyScrollbars();
@@ -179,6 +190,16 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         open(waitingHTML, options);
         return (function (_contextID) {
             return {
+                'isActive': function () { // is not closed
+                    if (_contextID === contextID && container !== null) {
+                        var containerClassName = container.getAttribute('class');
+                        if (containerClassName === null) {
+                            containerClassName = '';
+                        }
+                        return containerClassName.indexOf('ipjslghtbc') !== -1;
+                    }
+                    return false;
+                },
                 'open': function (html, options) {
                     if (_contextID === contextID) {
                         return open(html, options);
@@ -199,7 +220,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
 
     var closeOnEscKey = function (event) {
         if (event.keyCode === 27) {
-            close();
+            close(true);
         }
     };
 
