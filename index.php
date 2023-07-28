@@ -27,7 +27,7 @@ $app->clientPackages
 
         $closeButtonIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff"><path d="M11.47 10l7.08-7.08c.4-.4.4-1.06 0-1.47-.4-.4-1.06-.4-1.47 0L10 8.53 2.92 1.45c-.4-.4-1.07-.4-1.47 0-.4.4-.4 1.06 0 1.47L8.53 10l-7.08 7.08c-.4.4-.4 1.07 0 1.47.2.2.47.3.74.3.23 0 .5-.1.7-.3l7.1-7.08 7.07 7.08c.2.2.47.3.73.3.3 0 .56-.1.76-.3.4-.4.4-1.06 0-1.47L11.46 10z"/></svg>';
 
-        $code = '.ipjslghtbc{opacity:0;position:fixed;z-index:10010000;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.83);backdrop-filter:blur(4px);-webkit-transition:opacity 300ms, backdrop-filter 300ms;transition:opacity 300ms, backdrop-filter 300ms;}'
+        $code = '.ipjslghtbc{opacity:0;position:fixed;z-index:10010000;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.83);backdrop-filter:blur(4px);-webkit-transition:opacity 300ms;transition:opacity 300ms;}'
             . '.ipjslghtbcv{opacity:1;}'
             . '.ipjslghtbc > div{width:100vw;height:100vh;overflow:hidden;display:flex;align-items:center;}'
             . '.ipjslghtbc > div > div{overflow:auto;width:100vw;max-height:100vh;overscroll-behavior:contain;display:flex;flex-flow:wrap;justify-content:center;}'
