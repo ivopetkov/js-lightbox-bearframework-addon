@@ -20,6 +20,7 @@
         "php": "7.1.*|7.2.*|7.3.*|7.4.*|8.0.*|8.1.*",
         "bearframework/bearframework": "1.*",
         "bearframework/localization-addon": "1.*",
+        "ivopetkov/escape-key-js-bearframework-addon": "1.*",
         "ivopetkov/client-packages-bearframework-addon": "1.*",
         "ivopetkov/html5-dom-document-js-bearframework-addon": "1.*"
     },

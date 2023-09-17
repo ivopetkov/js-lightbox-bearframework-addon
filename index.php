@@ -42,6 +42,8 @@ $app->clientPackages
             . '@keyframes ipjslghtbw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}';
         $package->addCSSCode($code);
 
+        $package->embedPackage('escapeKey');
+
         $data = [__('ivopetkov.js-lightbox.close')];
         $package->get = 'return ivoPetkov.bearFrameworkAddons.jsLightbox.initialize(' . json_encode($data) . ');';
     });

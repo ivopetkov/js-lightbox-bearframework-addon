@@ -20,6 +20,11 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
 
     var closeButtonText = '';
 
+    var escapeKey = null;
+    clientPackages.get('escapeKey').then(function (escapeKeyObject) {
+        escapeKey = escapeKeyObject;
+    });
+
     var initialize = function (data) {
         closeButtonText = data[0];
         return this;
@@ -99,7 +104,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="' + closeButtonText + '" title="' + closeButtonText + '"></a>';
             container.lastChild.addEventListener('click', close);
             documentBody.appendChild(container);
-            documentBody.addEventListener('keydown', closeOnEscKey);
+            escapeKey.addHandler(closeOnEscKey);
             openTimeout = window.setTimeout(function () {
                 container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
                 openTimeout = null;
@@ -165,23 +170,23 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         if (escapeKeyMode && container.onBeforeEscKeyClose !== null) {
             var escKeyCloseResult = container.onBeforeEscKeyClose();
             if (escKeyCloseResult === false) {
-                return;
+                return false; // for the esc handlers
             }
         }
         window.clearTimeout(openTimeout);
         window.clearTimeout(waitingTimeout);
         if (container !== null) {
-            try { // IE
-                document.body.removeEventListener('keydown', closeOnEscKey);
-            } catch (e) {
-
-            }
             container.setAttribute('class', 'ipjslghtbc');
-            closeTimeout = window.setTimeout(function () {
-                container.parentNode.removeChild(container);
-                container = null;
-                enableBodyScrollbars();
-            }, 300);
+            if (closeTimeout === null) {
+                closeTimeout = window.setTimeout(function () {
+                    container.parentNode.removeChild(container);
+                    container = null;
+                    enableBodyScrollbars();
+                    closeTimeout = null;
+                }, 300);
+            }
+            escapeKey.removeHandler(closeOnEscKey);
+            return true; // for the esc handlers
         }
     };
 
@@ -218,10 +223,8 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         })(contextID);
     };
 
-    var closeOnEscKey = function (event) {
-        if (event.keyCode === 27) {
-            close(true);
-        }
+    var closeOnEscKey = function () {
+        return close(true);
     };
 
     Promise = window.Promise || function (callback) {
