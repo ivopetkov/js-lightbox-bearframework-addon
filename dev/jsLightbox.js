@@ -87,6 +87,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
 
     var open = function (html, options) {
         window.clearTimeout(closeTimeout);
+        closeTimeout = null;
         if (typeof options === 'undefined') {
             options = {};
         }
@@ -137,6 +138,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                             .then(function (html5DOMDocument) {
                                 if (_contextID === contextID) {
                                     window.clearTimeout(waitingTimeout);
+                                    waitingTimeout = null;
                                     target.style.padding = spacing;
                                     html5DOMDocument.insert(html, [target]);
                                     if (onOpen !== null) {
@@ -164,9 +166,6 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     };
 
     var close = function (escapeKeyMode) {
-        if (typeof escapeKeyMode === 'undefined') {
-            escapeKeyMode = false;
-        }
         if (escapeKeyMode && container.onBeforeEscKeyClose !== null) {
             var escKeyCloseResult = container.onBeforeEscKeyClose();
             if (escKeyCloseResult === false) {
@@ -174,7 +173,9 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             }
         }
         window.clearTimeout(openTimeout);
+        openTimeout = null;
         window.clearTimeout(waitingTimeout);
+        waitingTimeout = null;
         if (container !== null) {
             container.setAttribute('class', 'ipjslghtbc');
             if (closeTimeout === null) {
@@ -216,7 +217,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                 },
                 'close': function () {
                     if (_contextID === contextID) {
-                        close();
+                        close(false);
                     }
                 }
             };
@@ -257,7 +258,9 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
 
     return {
         'make': make,
-        'close': close,
+        'close': function () {
+            close(false);
+        },
         'initialize': initialize
     };
 }());
