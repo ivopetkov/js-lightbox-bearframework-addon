@@ -14,7 +14,8 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     var container = null;
     var closeTimeout = null;
     var openTimeout = null;
-    var waitingTimeout = null;
+    var showWaitingTimeout = null;
+    var hideWaitingTimeout = null;
     var waitingHTML = '<span class="ipjslghtbcl"></span>';
     var contextID = 0;
 
@@ -86,6 +87,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     };
 
     var open = function (html, options) {
+        var isClosing = closeTimeout !== null;
         window.clearTimeout(closeTimeout);
         closeTimeout = null;
         if (typeof options === 'undefined') {
@@ -94,8 +96,11 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         var spacing = typeof options.spacing !== 'undefined' ? options.spacing : '15px';
         var showCloseButton = typeof options.showCloseButton !== 'undefined' ? options.showCloseButton : true;
         var onOpen = typeof options.onOpen !== 'undefined' ? options.onOpen : null;
+        var closeOnEscKey = typeof options.closeOnEscKey !== 'undefined' ? options.closeOnEscKey : true;
         var onBeforeEscKeyClose = typeof options.onBeforeEscKeyClose !== 'undefined' ? options.onBeforeEscKeyClose : null;
+        var resolveBeforeHTMLAdded = typeof options.resolveBeforeHTMLAdded !== 'undefined' ? options.resolveBeforeHTMLAdded : false;
 
+        var addCloseOnEscKeyHandler = false;
         if (container === null) {
             var documentBody = document.body;
             container = document.createElement('div');
@@ -105,46 +110,59 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="' + closeButtonText + '" title="' + closeButtonText + '"></a>';
             container.lastChild.addEventListener('click', close);
             documentBody.appendChild(container);
-            escapeKey.addHandler(closeOnEscKey);
             openTimeout = window.setTimeout(function () {
                 container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
                 openTimeout = null;
                 disableBodyScrollbars();
             }, 16);
+            addCloseOnEscKeyHandler = true;
         } else {
             container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
         }
-        container.onBeforeEscKeyClose = onBeforeEscKeyClose;
+        if (isClosing) {
+            addCloseOnEscKeyHandler = true;
+        }
+        if (addCloseOnEscKeyHandler) {
+            escapeKey.addHandler(closeOnEscKeyHandler);
+        }
+        container.lbCloseOnEscKey = closeOnEscKey;
+        container.lbOnBeforeEscKeyClose = onBeforeEscKeyClose;
         container.lastChild.style.display = showCloseButton ? 'block' : 'none';
         var target = container.firstChild.firstChild.firstChild;
         target.setAttribute('data-lightbox-component', 'content');
 
         return new Promise(function (resolve, reject) {
             if (html === waitingHTML) {
-                if (target.querySelector('.ipjslghtbcl') === null) {
+                var waitingElement = target.querySelector('.ipjslghtbcl');
+                if (waitingElement === null) {
                     target.style.padding = spacing;
                     target.innerHTML = html;
-                    waitingTimeout = window.setTimeout(function () {
+                    showWaitingTimeout = window.setTimeout(function () {
                         var element = document.querySelector('.ipjslghtbcl');
                         if (element !== null) {
                             element.setAttribute('class', 'ipjslghtbcl ipjslghtbclv');
                         }
                     }, 1000);
+                } else {
+                    waitingElement.setAttribute('class', 'ipjslghtbcl ipjslghtbclv');
                 }
+                resolve();
             } else {
                 var showHtml = function () {
                     (function (_contextID) {
                         clientPackages.get('html5DOMDocument')
                             .then(function (html5DOMDocument) {
                                 if (_contextID === contextID) {
-                                    window.clearTimeout(waitingTimeout);
-                                    waitingTimeout = null;
+                                    window.clearTimeout(showWaitingTimeout);
+                                    showWaitingTimeout = null;
                                     target.style.padding = spacing;
                                     html5DOMDocument.insert(html, [target]);
                                     if (onOpen !== null) {
                                         onOpen(target);
                                     }
-                                    resolve();
+                                    if (!resolveBeforeHTMLAdded) {
+                                        resolve();
+                                    }
                                 } else {
                                     reject();
                                 }
@@ -158,24 +176,34 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                 if (waitingElement === null) {
                     showHtml();
                 } else {
-                    waitingElement.setAttribute('class', 'ipjslghtbcl');
-                    window.setTimeout(showHtml, 300);
+                    waitingElement.setAttribute('class', 'ipjslghtbcl'); // wait for waiting to hide
+                    hideWaitingTimeout = window.setTimeout(showHtml, 300);
+                }
+                if (resolveBeforeHTMLAdded) {
+                    resolve();
                 }
             }
         });
     };
 
     var close = function (escapeKeyMode) {
-        if (escapeKeyMode && container.onBeforeEscKeyClose !== null) {
-            var escKeyCloseResult = container.onBeforeEscKeyClose();
-            if (escKeyCloseResult === false) {
-                return false; // for the esc handlers
+        if (escapeKeyMode && container !== null) {
+            if (container.lbCloseOnEscKey === false) {
+                return false;
+            }
+            if (container.lbOnBeforeEscKeyClose !== null) {
+                var escKeyCloseResult = container.lbOnBeforeEscKeyClose();
+                if (escKeyCloseResult === false) {
+                    return false; // for the esc handlers
+                }
             }
         }
         window.clearTimeout(openTimeout);
         openTimeout = null;
-        window.clearTimeout(waitingTimeout);
-        waitingTimeout = null;
+        window.clearTimeout(showWaitingTimeout);
+        showWaitingTimeout = null;
+        window.clearTimeout(hideWaitingTimeout);
+        hideWaitingTimeout = null;
         if (container !== null) {
             container.setAttribute('class', 'ipjslghtbc');
             if (closeTimeout === null) {
@@ -185,8 +213,8 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                     enableBodyScrollbars();
                     closeTimeout = null;
                 }, 300);
+                escapeKey.removeHandler(closeOnEscKeyHandler);
             }
-            escapeKey.removeHandler(closeOnEscKey);
             return true; // for the esc handlers
         }
     };
@@ -224,7 +252,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         })(contextID);
     };
 
-    var closeOnEscKey = function () {
+    var closeOnEscKeyHandler = function () {
         return close(true);
     };
 
