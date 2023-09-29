@@ -51,6 +51,37 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         }
     };
 
+    var inertElements = [];
+    var lastSetVisiblity = null;
+    var setVisibility = function (container, visible) {
+        if (lastSetVisiblity === visible) {
+            return;
+        }
+        lastSetVisiblity = visible;
+        if (visible) {
+            container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
+            if (container.parentNode !== null) {
+                var siblings = container.parentNode.childNodes;
+                for (var i = 0; i < siblings.length; i++) {
+                    var sibling = siblings[i];
+                    if (sibling !== container) {
+                        sibling.setAttribute('inert', 'true');
+                        inertElements.push(sibling);
+                    }
+                }
+            }
+        } else {
+            container.setAttribute('class', 'ipjslghtbc');
+            for (var i = 0; i < inertElements.length; i++) {
+                try {
+                    inertElements[i].removeAttribute('inert');
+                } catch (e) {
+
+                }
+            }
+        }
+    }
+
     var bodyScroolbarSizeCache = null;
     var getBodyScrollbarSize = function () {
         if (bodyScroolbarSizeCache !== null) {
@@ -104,20 +135,20 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         if (container === null) {
             var documentBody = document.body;
             container = document.createElement('div');
-            container.setAttribute('class', 'ipjslghtbc');
+            setVisibility(container, false);
             container.setAttribute('data-lightbox-component', 'container');
             container.innerHTML = '<div><div><div></div></div></div>';
             container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="' + closeButtonText + '" title="' + closeButtonText + '"></a>';
             container.lastChild.addEventListener('click', close);
             documentBody.appendChild(container);
             openTimeout = window.setTimeout(function () {
-                container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
+                setVisibility(container, true);
                 openTimeout = null;
                 disableBodyScrollbars();
             }, 16);
             addCloseOnEscKeyHandler = true;
         } else {
-            container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
+            setVisibility(container, true);
         }
         if (isClosing) {
             addCloseOnEscKeyHandler = true;
@@ -205,7 +236,7 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         window.clearTimeout(hideWaitingTimeout);
         hideWaitingTimeout = null;
         if (container !== null) {
-            container.setAttribute('class', 'ipjslghtbc');
+            setVisibility(container, false);
             if (closeTimeout === null) {
                 closeTimeout = window.setTimeout(function () {
                     container.parentNode.removeChild(container);
