@@ -65,8 +65,10 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
                 for (var i = 0; i < siblings.length; i++) {
                     var sibling = siblings[i];
                     if (sibling !== container) {
-                        sibling.setAttribute('inert', 'true');
-                        inertElements.push(sibling);
+                        if (typeof sibling.setAttribute !== 'undefined') {
+                            sibling.setAttribute('inert', 'true');
+                            inertElements.push(sibling);
+                        }
                     }
                 }
             }
