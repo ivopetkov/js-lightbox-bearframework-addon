@@ -52,12 +52,15 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     };
 
     var inertElements = [];
-    var lastSetVisiblity = null;
-    var setVisibility = function (container, visible) {
-        if (lastSetVisiblity === visible) {
+    var lastSetContainerVisiblity = null;
+    var setContainerVisibility = function (visible) {
+        if (container === null) {
             return;
         }
-        lastSetVisiblity = visible;
+        if (lastSetContainerVisiblity === visible) {
+            return;
+        }
+        lastSetContainerVisiblity = visible;
         if (visible) {
             container.setAttribute('class', 'ipjslghtbc ipjslghtbcv');
             if (container.parentNode !== null) {
@@ -137,20 +140,20 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         if (container === null) {
             var documentBody = document.body;
             container = document.createElement('div');
-            setVisibility(container, false);
+            setContainerVisibility(false);
             container.setAttribute('data-lightbox-component', 'container');
             container.innerHTML = '<div><div><div></div></div></div>';
             container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="' + closeButtonText + '" title="' + closeButtonText + '"></a>';
             container.lastChild.addEventListener('click', close);
             documentBody.appendChild(container);
             openTimeout = window.setTimeout(function () {
-                setVisibility(container, true);
+                setContainerVisibility(true);
                 openTimeout = null;
                 disableBodyScrollbars();
             }, 16);
             addCloseOnEscKeyHandler = true;
         } else {
-            setVisibility(container, true);
+            setContainerVisibility(true);
         }
         if (isClosing) {
             addCloseOnEscKeyHandler = true;
@@ -238,11 +241,12 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
         window.clearTimeout(hideWaitingTimeout);
         hideWaitingTimeout = null;
         if (container !== null) {
-            setVisibility(container, false);
+            setContainerVisibility(false);
             if (closeTimeout === null) {
                 closeTimeout = window.setTimeout(function () {
                     container.parentNode.removeChild(container);
                     container = null;
+                    lastSetContainerVisiblity = null;
                     enableBodyScrollbars();
                     closeTimeout = null;
                 }, 300);
