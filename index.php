@@ -26,9 +26,8 @@ $app->clientPackages
 
         $code = '.ipjslghtbc{opacity:0;position:fixed;z-index:10010000;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.83);backdrop-filter:blur(4px);-webkit-transition:opacity 300ms;transition:opacity 300ms;}'
             . '.ipjslghtbcv{opacity:1;}'
-            . '.ipjslghtbc>div{width:100vw;height:100vh;overflow:hidden;display:flex;align-items:center;}'
-            . '.ipjslghtbc>div>div{overflow:auto;width:100vw;max-height:100vh;overscroll-behavior:contain;display:flex;flex-flow:wrap;justify-content:center;}'
-            . '.ipjslghtbc>div>div>div{max-width:100vw;box-sizing:border-box;overflow:hidden;}'
+            . '.ipjslghtbc>div{overflow-x:hidden;overflow-y:auto;width:100vw;height:100vh;height:100dvh;overscroll-behavior:contain;display:flex;align-items:center;justify-content:center;flex-direction:column;}'
+            . '.ipjslghtbc>div>div{max-width:100vw;box-sizing:border-box;flex:0 0;max-height:100%;}'
             . '.ipjslghtbx{display:block;width:42px;height:42px;position:fixed;right:0;top:0;cursor:pointer;z-index:20000001;user-select:none;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;background-image:url(data:image/svg+xml;base64,' . base64_encode($closeButtonIcon) . ');background-repeat:no-repeat;background-position:center;background-size:16px;}'
             . '.ipjslghtbcl{animation:ipjslghtbw 1.5s infinite linear;position:absolute;width:36px;height:36px;margin-top:-22px;margin-left:-22px;box-sizing:border-box;border-radius:50%;border:4px solid rgba(255,255,255,0.2);cursor:default;user-select:none;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;opacity:0;-webkit-transition:opacity 300ms;transition:opacity 300ms;border-right:4px solid rgba(255,255,255,0.8);}'
             . '.ipjslghtbclv{opacity:1;}'
