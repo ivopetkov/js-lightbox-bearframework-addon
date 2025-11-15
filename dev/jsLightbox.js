@@ -144,7 +144,9 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
             container.setAttribute('data-lightbox-component', 'container');
             container.innerHTML = '<div><div></div></div>';
             container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="' + closeButtonText + '" title="' + closeButtonText + '"></a>';
-            container.lastChild.addEventListener('click', close);
+            container.lastChild.addEventListener('click', function () {
+                close(false);
+            });
             documentBody.appendChild(container);
             openTimeout = window.setTimeout(function () {
                 setContainerVisibility(true);
