@@ -123,105 +123,122 @@ ivoPetkov.bearFrameworkAddons.jsLightbox = ivoPetkov.bearFrameworkAddons.jsLight
     };
 
     var open = function (html, options) {
-        var isClosing = closeTimeout !== null;
-        window.clearTimeout(closeTimeout);
-        closeTimeout = null;
-        if (typeof options === 'undefined') {
-            options = {};
-        }
-        var spacing = typeof options.spacing !== 'undefined' ? options.spacing : '15px';
-        var showCloseButton = typeof options.showCloseButton !== 'undefined' ? options.showCloseButton : true;
-        var onOpen = typeof options.onOpen !== 'undefined' ? options.onOpen : null;
-        var closeOnEscKey = typeof options.closeOnEscKey !== 'undefined' ? options.closeOnEscKey : true;
-        var onBeforeEscKeyClose = typeof options.onBeforeEscKeyClose !== 'undefined' ? options.onBeforeEscKeyClose : null;
-        var resolveBeforeHTMLAdded = typeof options.resolveBeforeHTMLAdded !== 'undefined' ? options.resolveBeforeHTMLAdded : false;
 
-        var addCloseOnEscKeyHandler = false;
-        if (container === null) {
-            var documentBody = document.body;
-            container = document.createElement('div');
-            setContainerVisibility(false);
-            container.setAttribute('data-lightbox-component', 'container');
-            container.innerHTML = '<div><div></div></div>';
-            container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="' + closeButtonText + '" title="' + closeButtonText + '"></a>';
-            container.lastChild.addEventListener('click', function () {
-                close(false);
-            });
-            documentBody.appendChild(container);
-            openTimeout = window.setTimeout(function () {
-                setContainerVisibility(true);
-                openTimeout = null;
-                disableBodyScrollbars();
-            }, 16);
-            addCloseOnEscKeyHandler = true;
-        } else {
-            setContainerVisibility(true);
-        }
-        if (isClosing) {
-            addCloseOnEscKeyHandler = true;
-        }
-        if (addCloseOnEscKeyHandler) {
-            escapeKey.addHandler(closeOnEscKeyHandler);
-        }
-        container.lbCloseOnEscKey = closeOnEscKey;
-        container.lbOnBeforeEscKeyClose = onBeforeEscKeyClose;
-        container.lastChild.style.display = showCloseButton ? 'block' : 'none';
-        var target = container.firstChild.firstChild;
-        target.setAttribute('data-lightbox-component', 'content');
-
-        return new Promise(function (resolve, reject) {
-            if (html === waitingHTML) {
-                var waitingElement = target.querySelector('.ipjslghtbcl');
-                if (waitingElement === null) {
-                    target.style.padding = spacing;
-                    target.innerHTML = html;
-                    showWaitingTimeout = window.setTimeout(function () {
-                        var element = document.querySelector('.ipjslghtbcl');
-                        if (element !== null) {
-                            element.setAttribute('class', 'ipjslghtbcl ipjslghtbclv');
-                        }
-                    }, 1000);
-                } else {
-                    waitingElement.setAttribute('class', 'ipjslghtbcl ipjslghtbclv');
-                }
-                resolve();
-            } else {
-                var showHtml = function () {
-                    (function (_contextID) {
-                        clientPackages.get('html5DOMDocument')
-                            .then(function (html5DOMDocument) {
-                                if (_contextID === contextID) {
-                                    window.clearTimeout(showWaitingTimeout);
-                                    showWaitingTimeout = null;
-                                    target.style.padding = spacing;
-                                    html5DOMDocument.insert(html, [target]);
-                                    if (onOpen !== null) {
-                                        onOpen(target);
-                                    }
-                                    if (!resolveBeforeHTMLAdded) {
-                                        resolve();
-                                    }
-                                } else {
-                                    reject();
-                                }
-                            })
-                            .catch(function () {
-                                reject();
-                            });
-                    })(contextID);
-                };
-                var waitingElement = target.querySelector('.ipjslghtbcl');
-                if (waitingElement === null) {
-                    showHtml();
-                } else {
-                    waitingElement.setAttribute('class', 'ipjslghtbcl'); // wait for waiting to hide
-                    hideWaitingTimeout = window.setTimeout(showHtml, 300);
-                }
-                if (resolveBeforeHTMLAdded) {
-                    resolve();
-                }
+        var process = function () {
+            var isClosing = closeTimeout !== null;
+            window.clearTimeout(closeTimeout);
+            closeTimeout = null;
+            if (typeof options === 'undefined') {
+                options = {};
             }
-        });
+            var spacing = typeof options.spacing !== 'undefined' ? options.spacing : '15px';
+            var showCloseButton = typeof options.showCloseButton !== 'undefined' ? options.showCloseButton : true;
+            var onOpen = typeof options.onOpen !== 'undefined' ? options.onOpen : null;
+            var closeOnEscKey = typeof options.closeOnEscKey !== 'undefined' ? options.closeOnEscKey : true;
+            var onBeforeEscKeyClose = typeof options.onBeforeEscKeyClose !== 'undefined' ? options.onBeforeEscKeyClose : null;
+            var resolveBeforeHTMLAdded = typeof options.resolveBeforeHTMLAdded !== 'undefined' ? options.resolveBeforeHTMLAdded : false;
+
+            var addCloseOnEscKeyHandler = false;
+            if (container === null) {
+                var documentBody = document.body;
+                container = document.createElement('div');
+                setContainerVisibility(false);
+                container.setAttribute('data-lightbox-component', 'container');
+                container.innerHTML = '<div><div></div></div>';
+                container.innerHTML += '<a class="ipjslghtbx" role="button" tabindex="0" data-lightbox-component="close-button" aria-label="' + closeButtonText + '" title="' + closeButtonText + '"></a>';
+                container.lastChild.addEventListener('click', function () {
+                    close(false);
+                });
+                documentBody.appendChild(container);
+                openTimeout = window.setTimeout(function () {
+                    setContainerVisibility(true);
+                    openTimeout = null;
+                    disableBodyScrollbars();
+                }, 16);
+                addCloseOnEscKeyHandler = true;
+            } else {
+                setContainerVisibility(true);
+            }
+            if (isClosing) {
+                addCloseOnEscKeyHandler = true;
+            }
+            if (addCloseOnEscKeyHandler) {
+                escapeKey.addHandler(closeOnEscKeyHandler);
+            }
+            container.lbCloseOnEscKey = closeOnEscKey;
+            container.lbOnBeforeEscKeyClose = onBeforeEscKeyClose;
+            container.lastChild.style.display = showCloseButton ? 'block' : 'none';
+            var target = container.firstChild.firstChild;
+            target.setAttribute('data-lightbox-component', 'content');
+
+            return new Promise(function (resolve, reject) {
+                if (html === waitingHTML) {
+                    var waitingElement = target.querySelector('.ipjslghtbcl');
+                    if (waitingElement === null) {
+                        target.style.padding = spacing;
+                        target.innerHTML = html;
+                        showWaitingTimeout = window.setTimeout(function () {
+                            var element = document.querySelector('.ipjslghtbcl');
+                            if (element !== null) {
+                                element.setAttribute('class', 'ipjslghtbcl ipjslghtbclv');
+                            }
+                        }, 1000);
+                    } else {
+                        waitingElement.setAttribute('class', 'ipjslghtbcl ipjslghtbclv');
+                    }
+                    resolve();
+                } else {
+                    var showHtml = function () {
+                        (function (_contextID) {
+                            clientPackages.get('html5DOMDocument')
+                                .then(function (html5DOMDocument) {
+                                    if (_contextID === contextID) {
+                                        window.clearTimeout(showWaitingTimeout);
+                                        showWaitingTimeout = null;
+                                        target.style.padding = spacing;
+                                        html5DOMDocument.insert(html, [target]);
+                                        if (onOpen !== null) {
+                                            onOpen(target);
+                                        }
+                                        if (!resolveBeforeHTMLAdded) {
+                                            resolve();
+                                        }
+                                    } else {
+                                        reject();
+                                    }
+                                })
+                                .catch(function () {
+                                    reject();
+                                });
+                        })(contextID);
+                    };
+                    var waitingElement = target.querySelector('.ipjslghtbcl');
+                    if (waitingElement === null) {
+                        showHtml();
+                    } else {
+                        waitingElement.setAttribute('class', 'ipjslghtbcl'); // wait for waiting to hide
+                        hideWaitingTimeout = window.setTimeout(showHtml, 300);
+                    }
+                    if (resolveBeforeHTMLAdded) {
+                        resolve();
+                    }
+                }
+            });
+        }
+
+        if (document.readyState === 'complete') {
+            return process();
+        } else {
+            return new Promise(function (resolve, reject) {
+                var isDocumentReady = false;
+                document.addEventListener('readystatechange', () => { // interactive or complete
+                    if (isDocumentReady === false) {
+                        resolve(process());
+                        isDocumentReady = true;
+                    }
+                });
+            });
+        }
     };
 
     var close = function (escapeKeyMode) {
